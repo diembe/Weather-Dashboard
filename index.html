@@ -13,14 +13,14 @@
 
 
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="custom.css">
+        <link rel="stylesheet" href="css/custom.css">
 
         <title>Weather Dashboard</title>
     </head>
     <body>
         <div class="container" style="padding-top:20px;">
             <h1 style="background-color:#335e9e; color:white; text-align: center; padding:20px; border-radius:5px;">Weather Dashboard</h1>
-            <div class="row">
+            <div class="row" style="padding-top:20px;">
                 <div class="col-md-3">
                     <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
                         <div class="input-group" style="width:100%">
@@ -37,25 +37,30 @@
                       </ul>
                 </div>
                 <div class="col-md-9">
-                    <!-- Retrieved data will be dumped here -->
+                    <!-- City & Current conditions -->
                     <div class="city"></div>
                     <div class="temp"></div>
                     <div class="humidity"></div>
                     <div class="wind"></div>
+                    <div class="uvi"></div>
+
+                    <!-- 5 day weather forcast -->
+                    <div class="row" id="currentConditions">
+                        <div class="col-md-2 col-half-offset" id="0">
+                        </div>
+                        <div class="col-md-2 col-half-offset" id="1">
+                        </div>
+                        <div class="col-md-2 col-half-offset" id="2">
+                        </div>
+                        <div class="col-md-2 col-half-offset" id="3">
+                        </div>
+                        <div class="col-md-2 col-half-offset" id="4">
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -66,7 +71,9 @@
         
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
         
-        <script src="custom.js"></script>
+        <script src="js/moment.js"></script>
+
+        <script src="js/custom.js"></script>
 
     </body>
 </html>

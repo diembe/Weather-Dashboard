@@ -45,11 +45,14 @@ $(document).ready(function() {
             // Convert the temp to fahrenheit
             var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
+            var today = moment().format('LL');
+
             // Transfer content to HTML
-            $(".city").html("<h1>" + response.name + " Weather Details</h1>");
+            $(".city").html("<h3>" + response.name + ' (' + today + ')' + "</h1>");
             $(".temp").text("Temperature: " + tempF.toFixed(1) + " °F");
-            $(".humidity").text("Humidity: " + response.main.humidity);
-            $(".wind").text("Wind Speed: " + response.wind.speed);
+            $(".humidity").text("Humidity: " + response.main.humidity + "%");
+            $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
+            
             
             
             
@@ -77,6 +80,21 @@ $(document).ready(function() {
 
                 // Log the resulting object
                 console.log(weatherResponse);
+
+                //$(".uvi").text("UV Index: " + weatherResponse.current.uvi);
+                $(".uvi").html("<span id='uvindex'>UV Index: " + weatherResponse.current.uvi + "</span>");
+
+                $(".uvi").addClass("uvisettings");
+
+                if (weatherResponse.current.uvi < 3) {
+                    $("#uvindex").addClass("favorable");
+                } else if (weatherResponse.current.uvi > 3 && weatherResponse.current.uvi < 8) {
+                    $("#uvindex").addClass("moderate");
+                } else if (weatherResponse.current.uvi >= 8) {
+                    $("#uvindex").addClass("severe");
+                }
+
+                
                 
             });
         });
