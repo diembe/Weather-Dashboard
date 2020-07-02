@@ -1,10 +1,12 @@
 
 $(document).ready(function() {
 
+    // Bring up last city on load
     getLocalStorage();
+    var requestedCity = localStorage.getItem("0");
+    getWeather(requestedCity);
 
-    var requestedCity = "";
-    
+    // Update city if you click the search icon
     $("#searchBtn").on("click", function() {
         requestedCity = $("#enterCity").val();
         $("#enterCity").val('');
@@ -16,6 +18,7 @@ $(document).ready(function() {
         getLocalStorage();
     });
 
+    // Update city if you click a previous city
     $("#previous-cities").on("click", "button", function() {
         requestedCity = $(this).text();
         $("#enterCity").val('');
@@ -27,6 +30,7 @@ $(document).ready(function() {
         getLocalStorage();
     });
 
+    // Update city if you hit enter
     $(document).on('keypress',function(e) {
         if(e.which == 13) {
             requestedCity = $("#enterCity").val();
@@ -40,10 +44,16 @@ $(document).ready(function() {
         }
     });
     
-
+    // When a new city is submitted, remove the last one and shift the rest down.
     function setLocalStorage(requestedCity) {
             
-        localStorage.removeItem("4");
+        localStorage.removeItem("7");
+        var move6 = localStorage.getItem("6");
+        localStorage.setItem("7", move6);
+        var move5 = localStorage.getItem("5");
+        localStorage.setItem("6", move5);
+        var move4 = localStorage.getItem("4");
+        localStorage.setItem("5", move4);
         var move3 = localStorage.getItem("3");
         localStorage.setItem("4", move3);
         var move2 = localStorage.getItem("2");
@@ -55,10 +65,10 @@ $(document).ready(function() {
         localStorage.setItem("0",requestedCity);
     }
 
-
+    // Iterate through all saved cities and add them as buttons in a ul
     function getLocalStorage() {
 
-        storedCities = ["0", "1", "2", "3", "4"]
+        storedCities = ["0", "1", "2", "3", "4", "5", "6", "7"]
 
         console.log("storedCities length: " + storedCities.length);
 
@@ -71,10 +81,12 @@ $(document).ready(function() {
     }
 
     
-    
+    // The main weather function
     function getWeather(requestedCity) {
         // API key
         var APIKey = "279767c3d83ada8f50f22f23a0737573";
+
+        // Need to first get lat/lon for searched city.
 
         // Lat/Lon URL
         var coordURL = "https://api.openweathermap.org/data/2.5/weather?q=" + requestedCity + "&appid=" + APIKey;
@@ -89,18 +101,10 @@ $(document).ready(function() {
             var lat = response.coord.lat;
             var lon = response.coord.lon;
 
-            //console.log(lat);
-            //console.log(lon);
-        
-            // Log the queryURL
-            //console.log(queryURL);
-
-            // Log the resulting object
-            //console.log(response);
-
             // Convert the temp to fahrenheit
             var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
+            // Get current date from moment.js
             var today = moment().format('LL');
 
             // Transfer content to HTML
@@ -108,20 +112,8 @@ $(document).ready(function() {
             $(".temp").text("Temperature: " + tempF.toFixed(1) + " °F");
             $(".humidity").text("Humidity: " + response.main.humidity + "%");
             $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
-            
-            
-            
-            
-
-            // add temp content to html
-            
-
-            // Log the data in the console as well
-            //console.log("Wind Speed: " + response.wind.speed);
-            //console.log("Humidity: " + response.main.humidity);
-            //console.log("Temperature (F): " + tempF);
-
-
+        
+            // Now that we have the lat/lon of the city, make a second api request to get the 5-day forcast info
 
             // Weather URL
             var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly&appid=" + APIKey;
@@ -134,14 +126,12 @@ $(document).ready(function() {
             })
             .then(function(weatherResponse) {
 
-                // Log the resulting object
-                //console.log(weatherResponse);
-
-                //$(".uvi").text("UV Index: " + weatherResponse.current.uvi);
+                // Add UVI info to today's weather
                 $(".uvi").html("<span id='uvindex'>UV Index: " + weatherResponse.current.uvi + "</span>");
 
                 $(".uvi").addClass("uvisettings");
 
+                // Color code UVI tag according to severity
                 if (weatherResponse.current.uvi < 3) {
                     $("#uvindex").addClass("favorable");
                 } else if (weatherResponse.current.uvi > 3 && weatherResponse.current.uvi < 8) {
@@ -150,6 +140,7 @@ $(document).ready(function() {
                     $("#uvindex").addClass("severe");
                 }
 
+                // Set icon for today's weather
                 var icon = weatherResponse.daily[0].weather[0].icon;
                 var iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
                 $("#currentIcon").html("<img id='wicon' src='" + iconurl + "' alt='Weather icon'>");
@@ -157,22 +148,20 @@ $(document).ready(function() {
                 var dailyWeather = weatherResponse.daily;
                 var fiveDay = [1, 2, 3, 4, 5];
 
+                // Iterate through the number of days specified in fiveDay
                 $.each(fiveDay, function( index, value ) {
-                    //console.log("this is the index: " + index);
-                    //console.log("this is the value: " + value);
+                    // Add days to current day
                     var date = moment().add(value, 'days');;
-                    //console.log("this is the date v1: " + date);
                     date = date.format('LL');
-                    //console.log("this is the date v2: " + date);
+                    // Get weather icon & pull the png image url
                     icon = dailyWeather[value].weather[0].icon;
                     iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
-                    //console.log("this is the icon url: " + iconurl);
+                    // Get temp and conver to fahrenheit
                     var temp = dailyWeather[value].temp.max;
                     temp = (dailyWeather[value].temp.max - 273.15) * 1.80 + 32;
-                    //console.log("this is the temp: " + temp);
                     var humidity = dailyWeather[value].humidity;
-                    //console.log("this is the humidity: " + humidity);
 
+                    // Take all the weather for this iteration's day and create/append html.
                     $("#currentConditions").append("<div class='col-md-2'><div id=" + value + "></div></div>");
                     $("#" + value).addClass("five-day-div");
                     $("#" + value).append("<div class='dateFormatting'>" + date + "</div>")

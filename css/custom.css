@@ -1,23 +1,16 @@
 
 .previous-cities .list-group-item { padding:0px; }
 .previous-cities button { width:100%; }
-
 .uvisettings { margin-top:10px; }
-
 .favorable {padding:10px; background-color:#32ff0d; border-radius: 5px;}
 .moderate {padding:10px; background-color:yellow; border-radius: 5px;}
 .severe {padding:10px; background-color:red; color:white; border-radius: 5px;}
-
 .col-half-offset{
     margin-left:4.166666667%
 }
-
 .currentConditions { margin-top:30px; }
-
 .five-day-div { background-color:blue; color:white; border-radius: 5px; padding-bottom:10px;}
-
 .dateFormatting { text-align:center; padding:10px; }
-
 #icon {text-align:center;}
 #temp {text-align:center;}
 #humidity {text-align:center;}
