@@ -8,6 +8,12 @@ $(document).ready(function() {
         console.log("this is the requested city: " + requestedCity)
         getWeather(requestedCity);
     });
+
+    $("#previous-cities").on("click", "button", function() {
+        requestedCity = $(this).text();
+        console.log("this is the previous city: " + requestedCity)
+        getWeather(requestedCity);
+    });
     
     
     function getWeather(requestedCity) {
@@ -36,24 +42,20 @@ $(document).ready(function() {
             // Log the resulting object
             console.log(response);
 
-            var city = response.name;
-            var wind = response.wind.speed;
-            var humidity = response.main.humidity;
-            var temp = response.main.temp;
-            temp = (((temp - 273.15)*9)/5)+32;
-            temp = temp.toFixed(1)
-
-            // Transfer content to HTML
-            $(".city").html("<h1>" + response.name + " Weather Details</h1>");
-            $(".wind").text("Wind Speed: " + response.wind.speed);
-            $(".humidity").text("Humidity: " + response.main.humidity);
-            
             // Convert the temp to fahrenheit
             var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
+            // Transfer content to HTML
+            $(".city").html("<h1>" + response.name + " Weather Details</h1>");
+            $(".temp").text("Temperature: " + tempF.toFixed(1) + " °F");
+            $(".humidity").text("Humidity: " + response.main.humidity);
+            $(".wind").text("Wind Speed: " + response.wind.speed);
+            
+            
+            
+
             // add temp content to html
-            $(".temp").text("Temperature (K) " + response.main.temp);
-            $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
+            
 
             // Log the data in the console as well
             console.log("Wind Speed: " + response.wind.speed);

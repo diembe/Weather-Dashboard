@@ -19,27 +19,29 @@
     </head>
     <body>
         <div class="container" style="padding-top:20px;">
-            <h1>Weather Dashboard</h1>
+            <h1 style="background-color:#335e9e; color:white; text-align: center; padding:20px; border-radius:5px;">Weather Dashboard</h1>
             <div class="row">
                 <div class="col-md-3">
                     <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
-                        <div class="input-group">
+                        <div class="input-group" style="width:100%">
                         <input type="text" class="form-control" placeholder="Enter City" aria-label="Enter City" aria-describedby="btnGroupAddon" id="enterCity">
                         <div class="input-group-append">
                             <button id="searchBtn" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
                         </div>
                         </div>
                     </div>
+                    <ul class="list-group previous-cities" id="previous-cities">
+                        <li class="list-group-item"><button type="button" class="btn btn-light">Salt Lake City</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-light">Denver</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-light">Copenhagen</button></li>
+                      </ul>
                 </div>
                 <div class="col-md-9">
                     <!-- Retrieved data will be dumped here -->
                     <div class="city"></div>
-                    <div class="wind"></div>
-                    <div class="humidity"></div>
                     <div class="temp"></div>
-
-                    <!-- Add extra div for the bonus Fahrenheit temp -->
-                    <div class="tempF"></div>
+                    <div class="humidity"></div>
+                    <div class="wind"></div>
                 </div>
             </div>
         </div>
