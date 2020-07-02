@@ -4,7 +4,7 @@
 
 .uvisettings { margin-top:10px; }
 
-.favorable {padding:10px; background-color:green; border-radius: 5px;}
+.favorable {padding:10px; background-color:#32ff0d; border-radius: 5px;}
 .moderate {padding:10px; background-color:yellow; border-radius: 5px;}
 .severe {padding:10px; background-color:red; color:white; border-radius: 5px;}
 

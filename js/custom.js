@@ -1,29 +1,44 @@
 
 $(document).ready(function() {
 
+    getLocalStorage();
+
     var requestedCity = "";
     
     $("#searchBtn").on("click", function() {
         requestedCity = $("#enterCity").val();
+        $("#enterCity").val('');
         console.log("this is the requested city: " + requestedCity)
         $("#currentConditions").empty();
         getWeather(requestedCity);
         setLocalStorage(requestedCity);
-        $("#previous-cities").empty;
+        $("#previous-cities").empty();
         getLocalStorage();
     });
 
     $("#previous-cities").on("click", "button", function() {
         requestedCity = $(this).text();
+        $("#enterCity").val('');
         console.log("this is the previous city: " + requestedCity)
         $("#currentConditions").empty();
         getWeather(requestedCity);
         setLocalStorage(requestedCity);
-        $("#previous-cities").empty;
+        $("#previous-cities").empty();
         getLocalStorage();
     });
 
-
+    $(document).on('keypress',function(e) {
+        if(e.which == 13) {
+            requestedCity = $("#enterCity").val();
+            $("#enterCity").val('');
+            console.log("this is the previous city: " + requestedCity)
+            $("#currentConditions").empty();
+            getWeather(requestedCity);
+            setLocalStorage(requestedCity);
+            $("#previous-cities").empty();
+            getLocalStorage();
+        }
+    });
     
 
     function setLocalStorage(requestedCity) {
@@ -43,14 +58,17 @@ $(document).ready(function() {
 
     function getLocalStorage() {
 
-        storedCities = [0, 1, 2, 3, 4]
+        storedCities = ["0", "1", "2", "3", "4"]
 
-        for (i=0; i<storedCities.length; i++) {
-            var i = localStorage.getItem(i);
-            $("#previous-cities").append('<li class="list-group-item"><button type="button" class="btn btn-light">' + i + '</button></li>');
+        console.log("storedCities length: " + storedCities.length);
+
+        var i;
+        for (i = 0; i < storedCities.length; i++) {
+            var city = localStorage.getItem(storedCities[i]);
+            console.log("this is i: " + i);
+            $("#previous-cities").append('<li class="list-group-item"><button type="button" class="btn btn-light">' + city + '</button></li>');
         }
     }
-
 
     
     
@@ -71,14 +89,14 @@ $(document).ready(function() {
             var lat = response.coord.lat;
             var lon = response.coord.lon;
 
-            console.log(lat);
-            console.log(lon);
+            //console.log(lat);
+            //console.log(lon);
         
             // Log the queryURL
-            console.log(queryURL);
+            //console.log(queryURL);
 
             // Log the resulting object
-            console.log(response);
+            //console.log(response);
 
             // Convert the temp to fahrenheit
             var tempF = (response.main.temp - 273.15) * 1.80 + 32;
@@ -99,9 +117,9 @@ $(document).ready(function() {
             
 
             // Log the data in the console as well
-            console.log("Wind Speed: " + response.wind.speed);
-            console.log("Humidity: " + response.main.humidity);
-            console.log("Temperature (F): " + tempF);
+            //console.log("Wind Speed: " + response.wind.speed);
+            //console.log("Humidity: " + response.main.humidity);
+            //console.log("Temperature (F): " + tempF);
 
 
 
@@ -117,7 +135,7 @@ $(document).ready(function() {
             .then(function(weatherResponse) {
 
                 // Log the resulting object
-                console.log(weatherResponse);
+                //console.log(weatherResponse);
 
                 //$(".uvi").text("UV Index: " + weatherResponse.current.uvi);
                 $(".uvi").html("<span id='uvindex'>UV Index: " + weatherResponse.current.uvi + "</span>");
@@ -140,15 +158,15 @@ $(document).ready(function() {
                 var fiveDay = [1, 2, 3, 4, 5];
 
                 $.each(fiveDay, function( index, value ) {
-                    console.log("this is the index: " + index);
-                    console.log("this is the value: " + value);
+                    //console.log("this is the index: " + index);
+                    //console.log("this is the value: " + value);
                     var date = moment().add(value, 'days');;
                     //console.log("this is the date v1: " + date);
                     date = date.format('LL');
-                    console.log("this is the date v2: " + date);
+                    //console.log("this is the date v2: " + date);
                     icon = dailyWeather[value].weather[0].icon;
                     iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
-                    console.log("this is the icon url: " + iconurl);
+                    //console.log("this is the icon url: " + iconurl);
                     var temp = dailyWeather[value].temp.max;
                     temp = (dailyWeather[value].temp.max - 273.15) * 1.80 + 32;
                     //console.log("this is the temp: " + temp);
