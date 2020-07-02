@@ -8,6 +8,9 @@ $(document).ready(function() {
         console.log("this is the requested city: " + requestedCity)
         $("#currentConditions").empty();
         getWeather(requestedCity);
+        setLocalStorage(requestedCity);
+        $("#previous-cities").empty;
+        getLocalStorage();
     });
 
     $("#previous-cities").on("click", "button", function() {
@@ -15,7 +18,40 @@ $(document).ready(function() {
         console.log("this is the previous city: " + requestedCity)
         $("#currentConditions").empty();
         getWeather(requestedCity);
+        setLocalStorage(requestedCity);
+        $("#previous-cities").empty;
+        getLocalStorage();
     });
+
+
+    
+
+    function setLocalStorage(requestedCity) {
+            
+        localStorage.removeItem("4");
+        var move3 = localStorage.getItem("3");
+        localStorage.setItem("4", move3);
+        var move2 = localStorage.getItem("2");
+        localStorage.setItem("3", move2);
+        var move1 = localStorage.getItem("1");
+        localStorage.setItem("2", move1);
+        var move0 = localStorage.getItem("0");
+        localStorage.setItem("1", move0);
+        localStorage.setItem("0",requestedCity);
+    }
+
+
+    function getLocalStorage() {
+
+        storedCities = [0, 1, 2, 3, 4]
+
+        for (i=0; i<storedCities.length; i++) {
+            var i = localStorage.getItem(i);
+            $("#previous-cities").append('<li class="list-group-item"><button type="button" class="btn btn-light">' + i + '</button></li>');
+        }
+    }
+
+
     
     
     function getWeather(requestedCity) {
