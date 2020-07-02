@@ -50,7 +50,7 @@ $(document).ready(function() {
             var today = moment().format('LL');
 
             // Transfer content to HTML
-            $(".city").html("<h3>" + response.name + ' (' + today + ')' + "</h1>");
+            $(".city").html("<h3>" + response.name + ' (' + today + ')' + "<span id='currentIcon'></span></h1>");
             $(".temp").text("Temperature: " + tempF.toFixed(1) + " °F");
             $(".humidity").text("Humidity: " + response.main.humidity + "%");
             $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
@@ -96,17 +96,22 @@ $(document).ready(function() {
                     $("#uvindex").addClass("severe");
                 }
 
-                var dailyWeather = weatherResponse.daily;
-                var fiveDay = [0, 1, 2, 3, 4];
+                var icon = weatherResponse.daily[0].weather[0].icon;
+                var iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
+                $("#currentIcon").html("<img id='wicon' src='" + iconurl + "' alt='Weather icon'>");
 
-                $.each(fiveDay, function( value ) {
-                    //console.log("this is the value: " + value);
+                var dailyWeather = weatherResponse.daily;
+                var fiveDay = [1, 2, 3, 4, 5];
+
+                $.each(fiveDay, function( index, value ) {
+                    console.log("this is the index: " + index);
+                    console.log("this is the value: " + value);
                     var date = moment().add(value, 'days');;
                     //console.log("this is the date v1: " + date);
                     date = date.format('LL');
-                    //console.log("this is the date v2: " + date);
-                    var icon = dailyWeather[value].weather[0].icon;
-                    var iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
+                    console.log("this is the date v2: " + date);
+                    icon = dailyWeather[value].weather[0].icon;
+                    iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
                     console.log("this is the icon url: " + iconurl);
                     var temp = dailyWeather[value].temp.max;
                     temp = (dailyWeather[value].temp.max - 273.15) * 1.80 + 32;
@@ -117,8 +122,9 @@ $(document).ready(function() {
                     $("#currentConditions").append("<div class='col-md-2'><div id=" + value + "></div></div>");
                     $("#" + value).addClass("five-day-div");
                     $("#" + value).append("<div class='dateFormatting'>" + date + "</div>")
-                    $("#" + value).append("<div id='icon'><img id='wicon' src='' alt='Weather icon'></div>");
-                    $('#wicon').attr('src', iconurl);
+                    $("#" + value).append("<div id='icon'><img id='wicon' src='" + iconurl + "' alt='Weather icon'></div>");
+                    $("#" + value).append("<div id='temp'>" + temp.toFixed(1) + " °F</div>");
+                    $("#" + value).append("<div id='humidity'>" + humidity + "%</div>");
 
                 });
 

@@ -14,6 +14,10 @@
 
 .currentConditions { margin-top:30px; }
 
-.five-day-div { background-color:blue; color:white; border-radius: 5px;}
+.five-day-div { background-color:blue; color:white; border-radius: 5px; padding-bottom:10px;}
 
 .dateFormatting { text-align:center; padding:10px; }
+
+#icon {text-align:center;}
+#temp {text-align:center;}
+#humidity {text-align:center;}
