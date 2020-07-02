@@ -94,8 +94,36 @@ $(document).ready(function() {
                     $("#uvindex").addClass("severe");
                 }
 
-                
-                
+                var dailyWeather = weatherResponse.daily;
+                var fiveDay = [0, 1, 2, 3, 4];
+
+                $.each(fiveDay, function( value ) {
+                    console.log("this is the value: " + value);
+                    var date = moment().add(value, 'days');;
+                    console.log("this is the date v1: " + date);
+                    date = date.format('LL');
+                    console.log("this is the date v2: " + date);
+                    var icon = dailyWeather[value].weather[0].icon;
+                    var iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
+                    var temp = dailyWeather[value].temp.max;
+                    temp = (dailyWeather[value].temp.max - 273.15) * 1.80 + 32;
+                    console.log("this is the temp: " + temp);
+                    var humidity = dailyWeather[value].humidity;
+                    console.log("this is the humidity: " + humidity);
+
+                    $("#" + value).addClass("five-day-div");
+                    $("#" + value).append("<div class='dateFormatting'>" + date + "</div>")
+
+                    //"<div id='icon'><img id='wicon' src='' alt='Weather icon'></div>";
+                    $('#wicon').attr('src', iconurl);
+
+                });
+
+                var a = moment('2016-01-01'); 
+                var b = a.add(1, 'week'); 
+                a.format();
+                "2016-01-08T00:00:00-06:00"
+
             });
         });
     };
